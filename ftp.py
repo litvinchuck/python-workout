@@ -21,5 +21,13 @@ try:
     print(ftp.login(user, password))
 except error_perm as error:
     print(error)
+    input()
     sys.exit()
 
+while True:
+    command = input(">> ").split(" ")
+    try:
+        func = getattr(ftp, command[0])
+        print(func(command[1])) if len(command) > 1 else print(func())
+    except:
+        continue
