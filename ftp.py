@@ -1,8 +1,4 @@
-from ftplib import FTP, error_perm, all_errors
-from getpass import getpass
-import sys
-
-description = '''
+'''
     A minimalistic FTP util. A shell for Python ftplib
 
     getwelcome - Return the welcome message sent by the server in reply to the initial connection. (This message sometimes contains disclaimers or help information that may be relevant to the user.)
@@ -17,9 +13,13 @@ description = '''
     quit - Send a QUIT command to the server and close the connection.
     exit - Send a QUIT command to the server and close the connection. Same as quit.
     close - Send a QUIT command to the server and close the connection. Same as quit.
-    help - display this help
+    help - display help
 
 '''
+
+from ftplib import FTP, error_perm, all_errors
+from getpass import getpass
+import sys
 
 print("FTP util\n")
 
@@ -49,7 +49,7 @@ while True:
         print(ftp.quit())
         sys.exit()
     elif command[0] == 'help':
-        print(description)
+        print(__doc__)
     else:
         try:
             func = getattr(ftp, command[0])
@@ -58,3 +58,5 @@ while True:
             print(error)
         except AttributeError:
             print('Unknown command')
+
+# TODO: add download and upload, > 2 argumented commands, fix None print, fix Enter Unknown command
