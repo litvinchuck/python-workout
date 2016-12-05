@@ -19,7 +19,7 @@
 
 from ftplib import FTP, error_perm, all_errors
 from getpass import getpass
-import sys
+import sys, readline
 
 print("FTP util\n")
 
@@ -29,8 +29,8 @@ password = getpass("Enter password: ")
 
 try:
     ftp = FTP(host)
-except:
-    print("Error, Host not found")
+except all_errors as error:
+    print(error)
     input()
     sys.exit()
 else:
@@ -44,19 +44,22 @@ except error_perm as error:
     sys.exit()
 
 while True:
+    readline.set_startup_hook()  # Enables input history
     command = input(">> ").split(" ")
     if command[0] in ('exit', 'quit', 'close'):
         print(ftp.quit())
         sys.exit()
     elif command[0] == 'help':
         print(__doc__)
+    elif len(command[0]) == 0:
+        continue
     else:
         try:
             func = getattr(ftp, command[0])
-            print(func(command[1])) if len(command) > 1 else print(func())
+            result = func(command[1]) if len(command) > 1 else print(func())
+            if result:
+                print(result)
         except all_errors as error:
             print(error)
         except AttributeError:
             print('Unknown command')
-
-# TODO: add download and upload, > 2 argumented commands, fix None print, fix Enter Unknown command
