@@ -14,11 +14,12 @@ rmd [dirname] - Remove the directory named dirname on the server.
 size [filename] - Request the size of the file named filename on the server. On success, the size of the file is returned as an integer, otherwise None is returned. Note that the SIZE command is not standardized, but is supported by many common server implementations.
 rename [fromname] [toname] - Rename file fromname on the server to toname.
 delete [filename] - Remove the file named filename from the server. If successful, returns the text of the response.
+retrieve [filename] [destination] - Retrieve a file in binary transfer mode and save it to destination folder.
+store [filename] [origin] - Store a file located in origin using binary transfer mode.
 quit - Send a QUIT command to the server and close the connection.
 exit - Send a QUIT command to the server and close the connection. Same as quit.
 close - Send a QUIT command to the server and close the connection. Same as quit.
 help - display help
-
 '''
 
 from ftplib import FTP, error_perm, all_errors
@@ -50,24 +51,30 @@ except error_perm as error:
 readline.set_startup_hook()  # Enables input history
 
 while True:
-    command = input(">> ").split(" ")
-    if command[0] in ('exit', 'quit', 'close'):
-        print(ftp.quit())
-        sys.exit()
-    elif command[0] == 'help':
-        print(__doc__)
-    elif len(command[0]) == 0:
-        continue
-    else:
-        try:
+    try:
+        command = input(">> ").split(" ")
+        if command[0] in ('exit', 'quit', 'close'):
+            print(ftp.quit())
+            sys.exit()
+        elif command[0] == 'help':
+            print(__doc__)
+        elif command[0] == 'retrieve':
+            with open(command[2], 'wb') as file:
+                    print(ftp.retrbinary('RETR {}'.format(command[1]), file.write))
+        elif command[0] == 'store':
+            with open(command[2], 'rb') as file:
+                    print(ftp.storbinary('STOR {}'.format(command[1]), file))
+        elif not command[0]:
+            continue
+        else:
             func = getattr(ftp, command[0])
             command[1:] = list(map(lambda argument: int(argument) if argument.isdigit() else argument, command[1:]))
             result = func(*command[1:])
             if result:
                 print(result)
-        except all_errors as error:
-            print(error)
-        except TypeError as error:
-            print('Invalid ammount of arguments')
-        except AttributeError:
-            print('Unknown command')
+    except all_errors as error:
+        print(error)
+    except (TypeError, IndexError) as error:
+        print('Invalid ammount of arguments')
+    except AttributeError:
+        print('Unknown command: "{}"'.format(command[0]))
