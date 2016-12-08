@@ -52,29 +52,31 @@ readline.set_startup_hook()  # Enables input history
 
 while True:
     try:
-        command = input(">> ").split(" ")
-        if command[0] in ('exit', 'quit', 'close'):
+        user_input = input(">> ").split(" ")
+        command = user_input[0]
+        arguments = user_input[1:]
+        if command in ('exit', 'quit', 'close'):
             print(ftp.quit())
             sys.exit()
-        elif command[0] == 'help':
+        elif command == 'help':
             print(__doc__)
-        elif command[0] == 'retrieve':
-            with open(command[2], 'wb') as file:
-                    print(ftp.retrbinary('RETR {}'.format(command[1]), file.write))
-        elif command[0] == 'store':
-            with open(command[2], 'rb') as file:
-                    print(ftp.storbinary('STOR {}'.format(command[1]), file))
-        elif not command[0]:
+        elif command == 'retrieve':
+            with open(arguments[1], 'wb') as file:
+                    print(ftp.retrbinary('RETR {}'.format(arguments[0]), file.write))
+        elif command == 'store':
+            with open(arguments[1], 'rb') as file:
+                    print(ftp.storbinary('STOR {}'.format(arguments[0]), file))
+        elif not command:
             continue
         else:
-            func = getattr(ftp, command[0])
-            command[1:] = list(map(lambda argument: int(argument) if argument.isdigit() else argument, command[1:]))
-            result = func(*command[1:])
+            func = getattr(ftp, command)
+            arguments = list(map(lambda argument: int(argument) if argument.isdigit() else argument, arguments))
+            result = func(*arguments)
             if result:
                 print(result)
     except all_errors as error:
         print(error)
-    except (TypeError, IndexError) as error:
+    except (TypeError, IndexError):
         print('Invalid ammount of arguments')
     except AttributeError:
-        print('Unknown command: "{}"'.format(command[0]))
+        print('Unknown command: "{}"'.format(command))
