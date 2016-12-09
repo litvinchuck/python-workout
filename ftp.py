@@ -1,4 +1,4 @@
-'''A minimalistic FTP util. A shell client for Python ftplib
+"""A minimalistic FTP util. A shell client for Python ftplib
 
 getwelcome - Return the welcome message sent by the server in reply to the initial connection. (This message sometimes contains disclaimers or help information that may be relevant to the user.)
 connect [host=''] [port=0] [timeout=None] - Connect to the given host and port. The default port number is 21, as specified by the FTP protocol specification. It is rarely needed to specify a different port number. This function should be called only once for each instance; it should not be called at all if a host was given when the instance was created. All other methods can only be used after a connection has been made. The optional timeout parameter specifies a timeout in seconds for the connection attempt. If no timeout is passed, the global default timeout setting will be used.
@@ -19,7 +19,7 @@ quit - Send a QUIT command to the server and close the connection.
 exit - Send a QUIT command to the server and close the connection. Same as quit.
 close - Send a QUIT command to the server and close the connection. Same as quit.
 help - display help
-'''
+"""
 
 from ftplib import FTP, error_perm, all_errors
 from getpass import getpass
