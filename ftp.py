@@ -1,5 +1,4 @@
-'''
-A minimalistic FTP util. A shell client for Python ftplib
+'''A minimalistic FTP util. A shell client for Python ftplib
 
 getwelcome - Return the welcome message sent by the server in reply to the initial connection. (This message sometimes contains disclaimers or help information that may be relevant to the user.)
 connect [host=''] [port=0] [timeout=None] - Connect to the given host and port. The default port number is 21, as specified by the FTP protocol specification. It is rarely needed to specify a different port number. This function should be called only once for each instance; it should not be called at all if a host was given when the instance was created. All other methods can only be used after a connection has been made. The optional timeout parameter specifies a timeout in seconds for the connection attempt. If no timeout is passed, the global default timeout setting will be used.
@@ -24,7 +23,10 @@ help - display help
 
 from ftplib import FTP, error_perm, all_errors
 from getpass import getpass
-import sys, readline
+from ftptracker import FTPTracker
+import os
+import sys
+import readline
 
 print("FTP util\n")
 
@@ -61,11 +63,18 @@ while True:
         elif command == 'help':
             print(__doc__)
         elif command == 'retrieve':
+            tracker = FTPTracker(ftp.size(arguments[0]))
+            if len(arguments) < 2:
+                arguments.append(arguments[0])
             with open(arguments[1], 'wb') as file:
-                    print(ftp.retrbinary('RETR {}'.format(arguments[0]), file.write))
+                    print(ftp.retrbinary('RETR {}'.format(arguments[0]),
+                                         lambda block: (file.write(block), tracker.handle(block))))
         elif command == 'store':
+            tracker = FTPTracker(os.path.getsize(arguments[0]))
+            if len(arguments) < 2:
+                arguments.append(arguments[0])
             with open(arguments[1], 'rb') as file:
-                    print(ftp.storbinary('STOR {}'.format(arguments[0]), file))
+                    print(ftp.storbinary('STOR {}'.format(arguments[0]), file, callback=tracker.handle))
         elif not command:
             continue
         else:
