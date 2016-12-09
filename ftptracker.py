@@ -31,9 +31,7 @@ class FTPTracker:
         """Returns: bar string format"""
         bar_filled = self.bar_filled()
         bar = '#' * bar_filled + '-' * (self.bar_length - bar_filled)
-        bar_format = '\r |{}| {}%'
-        percentage_format = '{0:.1f}'
-        return bar_format.format(bar, percentage_format.format(100 * self.percentage()))
+        return '\r |{}| {}%'.format(bar, '{0:.1f}'.format(100 * self.percentage()))
 
     def handle(self, block):
         """Handles bar output"""
