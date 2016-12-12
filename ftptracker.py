@@ -22,7 +22,7 @@ class FTPTracker:
 
     def percentage(self):
         """Returns: completeness percentage in string form."""
-        return '{0:.1f}'.format(100 *(self.size_written / float(self.file_size)))
+        return '{0:.1f}'.format(100 * (self.size_written / float(self.file_size)))
 
     def bar_filled(self):
         """Returns: rounded value of how much bar is filled"""

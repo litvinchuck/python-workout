@@ -21,12 +21,13 @@ close - Send a QUIT command to the server and close the connection. Same as quit
 help - display help
 """
 
+import os
+import readline
+import sys
 from ftplib import FTP, error_perm, all_errors
 from getpass import getpass
+
 from ftptracker import FTPTracker
-import os
-import sys
-import readline
 
 print("FTP util\n")
 
@@ -86,6 +87,6 @@ while True:
     except all_errors as error:
         print(error)
     except (TypeError, IndexError):
-        print('Invalid ammount of arguments')
+        print('Invalid amount of arguments')
     except AttributeError:
         print('Unknown command: "{}"'.format(command))
