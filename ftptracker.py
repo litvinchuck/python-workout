@@ -1,4 +1,5 @@
 import sys
+from readable_size import readable_size
 
 
 class FTPTracker:
@@ -20,8 +21,8 @@ class FTPTracker:
         self.bar_length = bar_length
 
     def percentage(self):
-        """Returns: completeness percentage in float form. Example 0.126"""
-        return self.size_written / float(self.file_size)
+        """Returns: completeness percentage in string form."""
+        return '{0:.1f}'.format(100 *(self.size_written / float(self.file_size)))
 
     def bar_filled(self):
         """Returns: rounded value of how much bar is filled"""
@@ -31,7 +32,8 @@ class FTPTracker:
         """Returns: bar string format"""
         bar_filled = self.bar_filled()
         bar = '#' * bar_filled + '-' * (self.bar_length - bar_filled)
-        return '\r |{}| {}%'.format(bar, '{0:.1f}'.format(100 * self.percentage()))
+        return '\r |{}| {}% {}/{}'.format(bar, self.percentage(), readable_size(self.size_written),
+                                          readable_size(self.file_size))
 
     def handle(self, block):
         """Handles bar output"""
