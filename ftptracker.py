@@ -42,3 +42,4 @@ class FTPTracker:
         if self.size_written == self.file_size:
             sys.stdout.write('\n')
         sys.stdout.flush()
+        sys.stdout.write('\033[K')  # Clears the end of the line to prevent output overlapping
