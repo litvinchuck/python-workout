@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime
 from readable_size import readable_size
 
 
@@ -12,28 +13,34 @@ class FTPTracker:
     Attributes:
         size_written (int): number of bytes that are already written
         file_size (int): size of tracked file
-        bar_length (int, optional): length of output bar. Defaults to 50
+        bar_length (int): length of output bar. Defaults to 50
+        start_time: ftp transfer start time
     """
 
     def __init__(self, file_size, bar_length=50):
         self.size_written = 0
         self.file_size = file_size
         self.bar_length = bar_length
+        self.start_time = datetime.now()
 
     def percentage(self):
-        """Returns: completeness percentage in string form."""
+        """Returns completeness percentage in string form."""
         return '{0:.1f}'.format(100 * (self.size_written / float(self.file_size)))
 
     def bar_filled(self):
-        """Returns: rounded value of how much bar is filled"""
+        """Returns rounded value of how much bar is filled"""
         return round(self.bar_length * self.size_written / float(self.file_size))
 
+    def rate(self):
+        """Returns transfer rate measured in bytes per second"""
+        return self.size_written / (datetime.now() - self.start_time).total_seconds()
+
     def bar_string(self):
-        """Returns: bar string format"""
+        """Returns bar string format"""
         bar_filled = self.bar_filled()
         bar = '#' * bar_filled + '-' * (self.bar_length - bar_filled)
-        return '\r |{}| {}% {}/{}'.format(bar, self.percentage(), readable_size(self.size_written),
-                                          readable_size(self.file_size))
+        return '\r |{}| {}% {}/{} {}/s'.format(bar, self.percentage(), readable_size(self.size_written),
+                                          readable_size(self.file_size), readable_size(self.rate()))
 
     def handle(self, block):
         """Handles bar output"""
