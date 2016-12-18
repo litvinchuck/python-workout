@@ -1,6 +1,6 @@
 import sys
 from datetime import datetime
-from readable_size import readable_size
+from readable import readable_size, readable_time
 
 
 class FTPTracker:
@@ -35,12 +35,16 @@ class FTPTracker:
         """Returns transfer rate measured in bytes per second"""
         return self.size_written / (datetime.now() - self.start_time).total_seconds()
 
+    def eta(self):
+        """Returns approximately how much time is left"""
+        return (self.file_size - self.size_written) / self.rate()
+
     def bar_string(self):
         """Returns bar string format"""
         bar_filled = self.bar_filled()
         bar = '#' * bar_filled + '-' * (self.bar_length - bar_filled)
-        return '\r |{}| {}% {}/{} {}/s'.format(bar, self.percentage(), readable_size(self.size_written),
-                                          readable_size(self.file_size), readable_size(self.rate()))
+        return '\r |{}| {}% {}/{} {}/s {}'.format(bar, self.percentage(), readable_size(self.size_written),
+                                          readable_size(self.file_size), readable_size(self.rate()), readable_time(self.eta()))
 
     def handle(self, block):
         """Handles bar output"""
