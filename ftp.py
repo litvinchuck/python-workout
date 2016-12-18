@@ -22,12 +22,16 @@ help - display help
 """
 
 import os
-import readline
 import sys
 from ftplib import FTP, error_perm, all_errors
 from getpass import getpass
 
 from ftptracker import FTPTracker
+
+try:
+    import gnureadline as readline
+except ImportError:
+    import readline
 
 print("FTP util\n")
 
