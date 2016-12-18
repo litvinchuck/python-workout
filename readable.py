@@ -7,12 +7,13 @@ time_units = ('s', 'm', 'h')
 
 
 def readable_base(origin_value, units_set, divisor, precise=False):
+    """Base function for readable functions"""
     if origin_value <= 1:
         return '{}{}'.format(int(origin_value), units_set[0])
 
     power = math.floor(math.log(origin_value, divisor))
     if power >= len(units_set):
-        power = len(units_set) - 1
+        power = len(units_set) - 1  # if power doesn't have a unit use biggest unit available
 
     multiple_value = math.floor(origin_value / math.pow(divisor, power))
 
@@ -26,10 +27,12 @@ def readable_base(origin_value, units_set, divisor, precise=False):
 
 
 def readable_size(byte_value):
+    """Returns byte size in human readable form"""
     return readable_base(byte_value, size_units, 1024)
 
 
 def readable_time(seconds_value):
+    """Returns time in human readable form"""
     return readable_base(seconds_value, time_units, 60, precise=True)
 
 if __name__ == '__main__':
