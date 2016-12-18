@@ -6,14 +6,23 @@ size_units = ('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')
 time_units = ('s', 'm', 'h')
 
 
-def readable_base(origin_value, units_set, divisor):
+def readable_base(origin_value, units_set, divisor, precise=False):
     if origin_value <= 1:
         return '{}{}'.format(int(origin_value), units_set[0])
+
     power = math.floor(math.log(origin_value, divisor))
     if power >= len(units_set):
         power = len(units_set) - 1
-    multiple_value = round(origin_value / math.pow(divisor, power), 2)
-    return '{:g}{}'.format(multiple_value, units_set[power])
+
+    multiple_value = math.floor(origin_value / math.pow(divisor, power))
+
+    if precise:
+        zero_value = '0{}'.format(units_set[0])
+        sub_result = readable_base(origin_value - multiple_value * math.pow(divisor, power), units_set, divisor).replace(zero_value, '')
+    else:
+        sub_result = ''
+
+    return '{:g}{} {}'.format(multiple_value, units_set[power], sub_result).rstrip()
 
 
 def readable_size(byte_value):
@@ -21,7 +30,7 @@ def readable_size(byte_value):
 
 
 def readable_time(seconds_value):
-    return readable_base(seconds_value, time_units, 60)
+    return readable_base(seconds_value, time_units, 60, precise=True)
 
 if __name__ == '__main__':
     assert readable_size(0) == '0B'
@@ -29,9 +38,9 @@ if __name__ == '__main__':
     assert readable_size(104857600) == '100MB'
     assert readable_size(209715200) == '200MB'
     assert readable_size(1073741824000) == '1000GB'
-    assert readable_size(1315333734400) == '1.2TB'
 
     assert readable_time(0) == '0s'
     assert readable_time(60) == '1m'
     assert readable_time(3600) == '1h'
+    assert readable_time(3660) == '1h 1m'
     assert readable_time(216000) == '60h'
