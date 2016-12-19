@@ -43,8 +43,14 @@ class FTPTracker:
         """Returns bar string format"""
         bar_filled = self.bar_filled()
         bar = '#' * bar_filled + '-' * (self.bar_length - bar_filled)
-        return '\r |{}| {}% {}/{} {}/s {}'.format(bar, self.percentage(), readable_size(self.size_written),
-                                          readable_size(self.file_size), readable_size(self.rate()), readable_time(self.eta()))
+        return '\r |{bar}| {percentage}% {size_written}/{file_size} {rate}/s {eta}'.format(
+            bar = bar,
+            percentage = self.percentage(),
+            size_written = readable_size(self.size_written),
+            file_size = readable_size(self.file_size),
+            rate = readable_size(self.rate()),
+            eta = readable_time(self.eta())
+        )
 
     def handle(self, block):
         """Handles bar output"""

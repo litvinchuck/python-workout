@@ -31,7 +31,12 @@ from ftptracker import FTPTracker
 try:
     import gnureadline as readline
 except ImportError:
+    pass
+
+try:
     import readline
+except ImportError:
+    readline = None
 
 print("FTP util\n")
 
@@ -55,7 +60,8 @@ except error_perm as error:
     input()
     sys.exit()
 
-readline.set_startup_hook()  # Enables input history
+if readline:
+    readline.set_startup_hook()  # Enables input history
 
 while True:
     try:
@@ -90,7 +96,7 @@ while True:
                 print(result)
     except all_errors as error:
         print(error)
-    except (TypeError, IndexError):
-        print('Invalid amount of arguments')
+    except (TypeError, IndexError) as error:
+        print('Invalid amount of arguments',error)
     except AttributeError:
         print('Unknown command: "{}"'.format(command))
