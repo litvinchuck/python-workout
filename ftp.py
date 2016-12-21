@@ -36,8 +36,7 @@ except ImportError:
 try:
     import readline
 except ImportError:
-    if not readline:
-        readline = None
+    pass
 
 print("FTP util\n")
 
