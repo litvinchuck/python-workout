@@ -1,6 +1,7 @@
 import sys
 from datetime import datetime
-from readable import readable_size, readable_time
+
+from utils.readable import readable_size, readable_time
 
 
 class FTPTracker:
