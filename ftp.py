@@ -26,7 +26,7 @@ import sys
 from ftplib import FTP, error_perm, all_errors
 from getpass import getpass
 
-from ftptracker import FTPTracker
+from ftp.ftptracker import FTPTracker
 
 try:
     import gnureadline as readline
