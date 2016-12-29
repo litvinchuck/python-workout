@@ -3,11 +3,11 @@ import sys
 
 class Daemon:
 
-    def __init__(self, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null', pidfile):
+    def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
+        self.pidfile = pidfile
         self.stdin = stdin
         self.stdout = stdout
         self.stderr = stderr
-        self.pidfile = pidfile
 
     def fork(self):
         try:
@@ -34,3 +34,8 @@ class Daemon:
         sys.stdin.flush()
         sys.stdout.flush()
         sys.stderr.flush()
+
+        # Duplicate daemon file descriptors to standart
+        os.dup2(open(self.stdin, 'r').fileno(), sys.stdin.fileno())
+        os.dup2(open(self.stdout, 'a').fileno(), sys.stdout.fileno())
+        os.dup2(open(self.stderr, 'a+').fileno(), sys.stdout.fileno())
