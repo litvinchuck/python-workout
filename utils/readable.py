@@ -19,7 +19,8 @@ def readable_base(origin_value, units_set, divisor, precise=False):
 
     if precise:
         zero_value = '0{}'.format(units_set[0])
-        sub_result = readable_base(origin_value - multiple_value * math.pow(divisor, power), units_set, divisor).replace(zero_value, '')
+        sub_result = readable_base(origin_value - multiple_value * math.pow(divisor, power),
+                                   units_set, divisor).replace(zero_value, '')
     else:
         sub_result = ''
 

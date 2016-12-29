@@ -45,12 +45,12 @@ class FTPTracker:
         bar_filled = self.bar_filled()
         bar = '#' * bar_filled + '-' * (self.bar_length - bar_filled)
         return '\r |{bar}| {percentage}% {size_written}/{file_size} {rate}/s {eta}'.format(
-            bar = bar,
-            percentage = self.percentage(),
-            size_written = readable_size(self.size_written),
-            file_size = readable_size(self.file_size),
-            rate = readable_size(self.rate()),
-            eta = readable_time(self.eta())
+            bar=bar,
+            percentage=self.percentage(),
+            size_written=readable_size(self.size_written),
+            file_size=readable_size(self.file_size),
+            rate=readable_size(self.rate()),
+            eta=readable_time(self.eta())
         )
 
     def handle(self, block):
