@@ -39,3 +39,23 @@ class Daemon:
         os.dup2(open(self.stdin, 'r').fileno(), sys.stdin.fileno())
         os.dup2(open(self.stdout, 'a').fileno(), sys.stdout.fileno())
         os.dup2(open(self.stderr, 'a+').fileno(), sys.stdout.fileno())
+
+        pidfile = open(self.pidfile)
+        pidfile.write('{}\n'.format(os.getpid()))
+        pidfile.flush()
+
+    def start(self, main_function):
+        try:
+            pidfile = open(self.pidfile)
+            pid = int(pidfile.read().strip())
+        except IOError:
+            pid = None
+        finally:
+            pidfile.flush()
+
+        if pid:
+            sys.stderr.write('Daemon already running')
+            sys.exit(1)
+
+        self.fork()
+        main_function()
