@@ -2,7 +2,22 @@ import os
 import sys
 import signal
 
+
 class Daemon:
+    """Base for a UNIX daemon. Only function to be run is required. Mostly created from this guide http://www.netzmafia.de/skripten/unix/linux-daemon-howto.html
+
+    Args:
+        pidfile(str) - file containing the process identification number (pid)
+        stdin(str) - standard input stream file. Defaults to /dev/null
+        stdout(str) - standard output stream file. Defaults to /dev/null
+        stderr(str) - standard error stream file. Defaults to /dev/null
+
+    Attributes:
+        pidfile(str) - file containing the process identification number (pid)
+        stdin(str) - standard input stream file. Defaults to /dev/null
+        stdout(str) - standard output stream file. Defaults to /dev/null
+        stderr(str) - standard error stream file. Defaults to /dev/null
+    """
 
     def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
         self.pidfile = pidfile
@@ -11,6 +26,10 @@ class Daemon:
         self.stderr = stderr
 
     def fork(self):
+        """Forks the daemon process
+        Fork a second child and exit immediately to prevent zombies.  This causes the second child process
+        to be orphaned, making the init process responsible for its cleanup.
+        """
         try:
             pid = os.fork()
             if pid > 0:
@@ -46,6 +65,7 @@ class Daemon:
         pidfile.flush()
 
     def getpid(self):
+        """Returns pid of the process if it is running. Returns None otherwise"""
         try:
             pidfile = open(self.pidfile)
             pid = int(pidfile.read().strip())
@@ -56,18 +76,30 @@ class Daemon:
         return pid
 
     def start(self, main_function):
+        """Starts the daemon process and runs the main function
+
+        Args:
+            main_function(finction) - function to be run by the daemon
+        """
         if self.getpid():
             sys.stderr.write('Daemon is already running')
             sys.exit(1)
 
         self.fork()
-        main_function()
+
+        while True:
+            main_function()
 
     def stop(self):
+        """Stops the daemon"""
         pid = self.getpid()
         if not pid:
             sys.stderr.write('Daemon is not running')
             sys.exit(1)
 
         os.kill(pid, signal.SIGTERM)
-        
+
+    def restart(self):
+        """Restarts daemon"""
+        self.stop()
+        self.start()
