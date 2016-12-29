@@ -7,7 +7,7 @@ class Daemon:
     """Base for a UNIX daemon. Only function to be run is required. Mostly created from this guide http://www.netzmafia.de/skripten/unix/linux-daemon-howto.html
 
     Args:
-        main_function(function) - function to be run by the daemon
+        main_function(function) - function to be run by the daemon, should accept stdin, stdout and stderr as aeguments
         pidfile(str) - file containing the process identification number (pid)
         stdin(str) - standard input stream file. Defaults to /dev/null
         stdout(str) - standard output stream file. Defaults to /dev/null
