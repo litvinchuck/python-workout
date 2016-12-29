@@ -7,19 +7,22 @@ class Daemon:
     """Base for a UNIX daemon. Only function to be run is required. Mostly created from this guide http://www.netzmafia.de/skripten/unix/linux-daemon-howto.html
 
     Args:
+        main_function(function) - function to be run by the daemon
         pidfile(str) - file containing the process identification number (pid)
         stdin(str) - standard input stream file. Defaults to /dev/null
         stdout(str) - standard output stream file. Defaults to /dev/null
         stderr(str) - standard error stream file. Defaults to /dev/null
 
     Attributes:
+        main_function(function) - function to be run by the daemon
         pidfile(str) - file containing the process identification number (pid)
         stdin(str) - standard input stream file. Defaults to /dev/null
         stdout(str) - standard output stream file. Defaults to /dev/null
         stderr(str) - standard error stream file. Defaults to /dev/null
     """
 
-    def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
+    def __init__(self, main_function, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
+        self.main_function = main_function
         self.pidfile = pidfile
         self.stdin = stdin
         self.stdout = stdout
@@ -56,11 +59,14 @@ class Daemon:
         sys.stderr.flush()
 
         # Duplicate daemon file descriptors to standart
-        os.dup2(open(self.stdin, 'r').fileno(), sys.stdin.fileno())
-        os.dup2(open(self.stdout, 'a').fileno(), sys.stdout.fileno())
-        os.dup2(open(self.stderr, 'a+').fileno(), sys.stdout.fileno())
+        stdin_file = open(self.stdin, 'r')
+        stdout_file = open(self.stdout, 'a')
+        stderr_file = open(self.stderr, 'a+')
+        os.dup2(stdin_file.fileno(), sys.stdin.fileno())
+        os.dup2(stdout_file.fileno(), sys.stdout.fileno())
+        os.dup2(stderr_file.fileno(), sys.stdout.fileno())
 
-        pidfile = open(self.pidfile)
+        pidfile = open(self.pidfile, 'w+')
         pidfile.write('{}\n'.format(os.getpid()))
         pidfile.flush()
 
@@ -74,12 +80,8 @@ class Daemon:
             pid = None
         return pid
 
-    def start(self, main_function):
-        """Starts the daemon process and runs the main function
-
-        Args:
-            main_function(finction) - function to be run by the daemon
-        """
+    def start(self):
+        """Starts the daemon process and runs the main function"""
         if self.getpid():
             sys.stderr.write('Daemon is already running')
             sys.exit(1)
@@ -87,7 +89,7 @@ class Daemon:
         self.fork()
 
         while True:
-            main_function()
+            self.main_function()
 
     def stop(self):
         """Stops the daemon"""
