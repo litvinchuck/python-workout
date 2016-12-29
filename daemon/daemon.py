@@ -69,10 +69,9 @@ class Daemon:
         try:
             pidfile = open(self.pidfile)
             pid = int(pidfile.read().strip())
+            pidfile.flush()
         except IOError:
             pid = None
-        finally:
-            pidfile.flush()
         return pid
 
     def start(self, main_function):
