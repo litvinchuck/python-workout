@@ -1,5 +1,6 @@
 import os
 import sys
+import signal
 
 class Daemon:
 
@@ -44,7 +45,7 @@ class Daemon:
         pidfile.write('{}\n'.format(os.getpid()))
         pidfile.flush()
 
-    def start(self, main_function):
+    def getpid(self):
         try:
             pidfile = open(self.pidfile)
             pid = int(pidfile.read().strip())
@@ -52,10 +53,21 @@ class Daemon:
             pid = None
         finally:
             pidfile.flush()
+        return pid
 
-        if pid:
-            sys.stderr.write('Daemon already running')
+    def start(self, main_function):
+        if self.getpid():
+            sys.stderr.write('Daemon is already running')
             sys.exit(1)
 
         self.fork()
         main_function()
+
+    def stop(self):
+        pid = self.getpid()
+        if not pid:
+            sys.stderr.write('Daemon is not running')
+            sys.exit(1)
+
+        os.kill(pid, signal.SIGTERM)
+        
