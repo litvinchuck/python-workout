@@ -1,6 +1,7 @@
 import os
 import sys
 import signal
+from signal_handler import SignalHandler
 
 
 class Daemon:
@@ -70,6 +71,9 @@ class Daemon:
         pidfile = open(self.pidfile, 'w+')
         pidfile.write('{}\n'.format(os.getpid()))
         pidfile.flush()
+
+        handler = SignalHandler(self)
+        signal.signal(signal.SIGTERM, handler.handle)
 
     def getpid(self):
         """Returns pid of the process if it is running. Returns None otherwise"""
