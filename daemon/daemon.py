@@ -4,8 +4,8 @@ import signal
 
 
 class Daemon:
-    """Base for a UNIX daemon. Only function to be run is required. Mostly created from this guide
-    http://www.netzmafia.de/skripten/unix/linux-daemon-howto.html
+    """Base for a UNIX daemon. Only function to be run is required. Doesn't meant to be instantiated, use DaemonBuilder
+    instead. Mostly created from this guide http://www.netzmafia.de/skripten/unix/linux-daemon-howto.html
 
     Args:
         main_function(function) - function to be run by the daemon

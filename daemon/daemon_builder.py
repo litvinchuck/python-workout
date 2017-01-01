@@ -6,7 +6,8 @@ from .signal_handler import SignalHandler
 class DaemonBuilder:
     """Builder class for Daemon"""
 
-    def build(self, main_function, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
+    @staticmethod
+    def build(main_function, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
         """Builds the daemon and returns DaemonHandler instance
 
             Args:
