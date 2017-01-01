@@ -1,7 +1,6 @@
 import os
 import sys
 import signal
-from signal_handler import SignalHandler
 
 
 class Daemon:
@@ -9,21 +8,21 @@ class Daemon:
     http://www.netzmafia.de/skripten/unix/linux-daemon-howto.html
 
     Args:
-        main_function(function) - function to be run by the daemon, should accept stdin, stdout and stderr as arguments
+        main_function(function) - function to be run by the daemon
         pidfile(str) - file containing the process identification number (pid)
-        stdin(str) - standard input stream file. Defaults to /dev/null
-        stdout(str) - standard output stream file. Defaults to /dev/null
-        stderr(str) - standard error stream file. Defaults to /dev/null
+        stdin(str) - standard input stream fil
+        stdout(str) - standard output stream file
+        stderr(str) - standard error stream file
 
     Attributes:
         main_function(function) - function to be run by the daemon
         pidfile(str) - file containing the process identification number (pid)
-        stdin(str) - standard input stream file. Defaults to /dev/null
-        stdout(str) - standard output stream file. Defaults to /dev/null
-        stderr(str) - standard error stream file. Defaults to /dev/null
+        stdin(str) - standard input stream file
+        stdout(str) - standard output stream file
+        stderr(str) - standard error stream file
     """
 
-    def __init__(self, main_function, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
+    def __init__(self, main_function, pidfile, stdin, stdout, stderr):
         self.main_function = main_function
         self.pidfile = pidfile
         self.stdin = stdin
@@ -71,9 +70,6 @@ class Daemon:
         pidfile = open(self.pidfile, 'w+')
         pidfile.write('{}\n'.format(os.getpid()))
         pidfile.flush()
-
-        handler = SignalHandler(self)
-        signal.signal(signal.SIGTERM, handler.handle)
 
     def getpid(self):
         """Returns pid of the process if it is running. Returns None otherwise"""
