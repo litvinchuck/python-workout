@@ -1,6 +1,6 @@
 import signal
-from .daemon import Daemon
-from .signal_handler import SignalHandler
+from daemon import Daemon
+from signal_handler import SignalHandler
 
 
 class DaemonBuilder:
