@@ -8,14 +8,14 @@ class Daemon:
     instead. Mostly created from this guide http://www.netzmafia.de/skripten/unix/linux-daemon-howto.html
 
     Args:
-        main_function(function) - function to be run by the daemon
+        main_function(function) - function to be run by the daemon, should accept stdin, stdout, stderr as arguments
         pidfile(str) - file containing the process identification number (pid)
         stdin(str) - standard input stream fil
         stdout(str) - standard output stream file
         stderr(str) - standard error stream file
 
     Attributes:
-        main_function(function) - function to be run by the daemon
+        main_function(function) - function to be run by the daemon, should accept stdin, stdout, stderr as arguments
         pidfile(str) - file containing the process identification number (pid)
         stdin(str) - standard input stream file
         stdout(str) - standard output stream file
@@ -70,6 +70,7 @@ class Daemon:
         pidfile = open(self.pidfile, 'w+')
         pidfile.write('{}\n'.format(os.getpid()))
         pidfile.flush()
+        return stdin_file, stdout_file, stderr_file
 
     def getpid(self):
         """Returns pid of the process if it is running. Returns None otherwise"""
@@ -87,10 +88,10 @@ class Daemon:
             sys.stderr.write('Daemon is already running')
             sys.exit(1)
 
-        self.fork()
+        stdin_file, stdout_file, stderr_file = self.fork()
 
         while True:
-            self.main_function()
+            self.main_function(stdin_file, stdout_file, stderr_file)
 
     def stop(self):
         """Stops the daemon"""
