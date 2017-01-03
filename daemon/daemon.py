@@ -89,12 +89,10 @@ class Daemon:
             sys.exit(1)
 
         stdin_file, stdout_file, stderr_file = self.fork()
-
-        while True:
-            self.main_function(stdin_file, stdout_file, stderr_file)
+        self.main_function(stdin_file, stdout_file, stderr_file)
 
     def stop(self):
-        """Stops the daemon"""
+        """Stops the daemon and performs cleaning up"""
         pid = self.getpid()
         if not pid:
             sys.stderr.write('Daemon is not running')
@@ -102,6 +100,7 @@ class Daemon:
 
         os.kill(pid, signal.SIGTERM)
         os.remove(self.pidfile)
+        os.remove(self.stdout)
 
     def restart(self):
         """Restarts daemon"""
