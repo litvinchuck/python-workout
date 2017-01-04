@@ -1,4 +1,4 @@
-Bunch of programms written in python 3 created just for my entertainment and chalange.
+Bunch of programs written in python 3 created just for my entertainment and chalange.
 
 ### ftp.py
 Text-based single-threaded ftp client with status bar.
