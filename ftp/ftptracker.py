@@ -47,9 +47,9 @@ class FTPTracker:
         return '\r |{bar}| {percentage}% {size_written}/{file_size} {rate}/s {eta}'.format(
             bar=bar,
             percentage=self.percentage(),
-            size_written=readable_size(self.size_written),
-            file_size=readable_size(self.file_size),
-            rate=readable_size(self.rate()),
+            size_written=readable_size(self.size_written).split()[0],
+            file_size=readable_size(self.file_size).split()[0],
+            rate=readable_size(self.rate()).split()[0],
             eta=readable_time(self.eta())
         )
 
