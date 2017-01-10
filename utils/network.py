@@ -1,5 +1,6 @@
 """Networking functions"""
 from socket import socket, gethostbyname
+from http.client import HTTPSConnection, HTTPConnection
 
 
 def scan_port(host, port):
@@ -46,8 +47,37 @@ def network_io():
     return results_dict
 
 
+def website_status(url):
+    """Sends HEAD request to website and returns status
+    Args:
+        url - website url address with protocol specified
+
+    Returns:
+        tuple containing website response code and response status, E.g: (200, 'OK')
+    """
+    protocol, address = url.split('://')
+    if protocol == 'https':
+        connection = HTTPSConnection(address)
+    else:
+        connection = HTTPSConnection(address)
+    connection.request('HEAD', '')
+    response = connection.getresponse()
+    return response.getcode(), response.reason
+
+
+def website_is_up(url):
+    """Checks if website is up
+    Args:
+        url - website url address with protocol specified
+
+    Returns: True if website is up, False otherwise
+    """
+    return website_status(url)[0] < 400
+
 if __name__ == '__main__':
     assert scan_port('google.com', 80)
     assert scan_port('ftp.debian.org', 80)
     assert scan_port('ftp.debian.org', 21)
     assert scan_port('ftp.debian.org', 22)
+
+    assert website_is_up('https://www.google.com')
