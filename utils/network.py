@@ -6,11 +6,11 @@ from http.client import HTTPSConnection, HTTPConnection
 def scan_port(host, port):
     """Scans if port is open on specified host.
     Args:
-        host(str) - host name or host ip
-        port(int) - port number
+        host (str) - host name or host ip
+        port (int) - port number
 
     Returns:
-        True if port is open, False otherwise
+        bool: True if port is open, False otherwise
     """
     socket_instance = socket()
     host_ip = gethostbyname(host)
@@ -19,15 +19,16 @@ def scan_port(host, port):
 
 def network_io():
     """Returns Linux environment network io statistics in dictionary format.
-    Where dictionary keys are device names, dictionary values are tuples containing integer values in following order:
-        number of bytes sent,
-        number of bytes received,
-        number of packets sent,
-        number of packets received,
-        number of errors while receiving,
-        number of errors while sending,
-        numbers of dropped incoming packets,
-        number of dropped outgoing packets
+    Returns:
+        dict: dictionary keys are device names, dictionary values are tuples containing integer values in following order:
+            number of bytes sent,
+            number of bytes received,
+            number of packets sent,
+            number of packets received,
+            number of errors while receiving,
+            number of errors while sending,
+            numbers of dropped incoming packets,
+            number of dropped outgoing packets
     """
     results_dict = {}
     with open('/proc/net/dev') as file:
@@ -50,10 +51,10 @@ def network_io():
 def website_status(url):
     """Sends HEAD request to website and returns status
     Args:
-        url - website url address with protocol specified
+        url (str) - website url address with protocol specified
 
     Returns:
-        tuple containing website response code and response status, E.g: (200, 'OK')
+        tuple: website response code and response status, E.g: (200, 'OK')
     """
     protocol, address = url.split('://')
     if protocol == 'https':
@@ -68,9 +69,10 @@ def website_status(url):
 def website_is_up(url):
     """Checks if website is up
     Args:
-        url - website url address with protocol specified
+        url (str) - website url address with protocol specified
 
-    Returns: True if website is up, False otherwise
+    Returns:
+        bool: True if website is up, False otherwise
     """
     return website_status(url)[0] < 400
 

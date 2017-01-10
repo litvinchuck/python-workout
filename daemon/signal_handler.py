@@ -5,10 +5,10 @@ class SignalHandler:
     """Basic signal handler for Daemon
 
     Args:
-        daemon - instance of Daemon class
+        daemon (Daemon) - instance of Daemon class
 
     Attributes:
-        daemon - instance of Daemon class
+        daemon (Daemon) - instance of Daemon class
     """
 
     def __init__(self, daemon):

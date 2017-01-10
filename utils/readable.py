@@ -7,14 +7,13 @@ time_units = ('s', 'm', 'h')
 
 
 def readable_base(origin_value, units_set, divisor):
-    """Base function for readable functions.
-    Can be used for units with same divisor
+    """Base function for readable functions. Can be used for units with same divisor.
     Args:
         origin_value - input value in minimal units
         units_set - units string values set
         divisor - units divisor
     Returns:
-        unit in human readable string form
+        str: unit in human readable string form
     """
     if origin_value <= 1:
         return '{}{}'.format(int(origin_value), units_set[0])
@@ -32,12 +31,18 @@ def readable_base(origin_value, units_set, divisor):
 
 
 def readable_size(byte_value):
-    """Returns byte size in human readable form"""
+    """
+    Returns:
+        str: byte size in human readable form
+    """
     return readable_base(byte_value, size_units, 1024)
 
 
 def readable_time(seconds_value):
-    """Returns time in human readable form"""
+    """
+    Returns:
+        str: time in human readable form
+    """
     return readable_base(seconds_value, time_units, 60)
 
 if __name__ == '__main__':
