@@ -8,7 +8,7 @@ class DaemonBuilder:
 
     @staticmethod
     def build(main_function, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
-        """Builds the daemon and returns DaemonHandler instance
+        """Builds the daemon and returns SignalHandler instance
 
             Args:
                 main_function (function) - function to be run by the daemon, should accept stdin, stdout and stderr as arguments
@@ -18,7 +18,7 @@ class DaemonBuilder:
                 stderr (str) - standard error stream file. Defaults to /dev/null
 
             Returns:
-                DaemonHandler instance
+                SignalHandler instance
             """
         daemon = Daemon(main_function, pidfile, stdin, stdout, stderr)
         handler = SignalHandler(daemon)

@@ -60,7 +60,7 @@ def website_status(url):
     if protocol == 'https':
         connection = HTTPSConnection(address)
     else:
-        connection = HTTPSConnection(address)
+        connection = HTTPConnection(address)
     connection.request('HEAD', '')
     response = connection.getresponse()
     return response.getcode(), response.reason
