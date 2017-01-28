@@ -8,6 +8,7 @@ time_units = ('s', 'm', 'h')
 
 def readable_base(origin_value, units_set, divisor):
     """Base function for readable functions. Can be used for units with same divisor.
+
     Args:
         origin_value - input value in minimal units
         units_set - units string values set

@@ -5,6 +5,7 @@ from http.client import HTTPSConnection, HTTPConnection
 
 def scan_port(host, port):
     """Scans if port is open on specified host.
+
     Args:
         host (str) - host name or host ip
         port (int) - port number
@@ -19,6 +20,7 @@ def scan_port(host, port):
 
 def network_io():
     """Returns Linux environment network io statistics in dictionary format.
+
     Returns:
         dict: dictionary keys are device names, dictionary values are tuples containing integer values in following order:
             number of bytes sent,
@@ -50,6 +52,7 @@ def network_io():
 
 def website_status(url):
     """Sends HEAD request to website and returns status
+
     Args:
         url (str) - website url address with protocol specified
 
@@ -68,6 +71,7 @@ def website_status(url):
 
 def website_is_up(url):
     """Checks if website is up
+
     Args:
         url (str) - website url address with protocol specified
 
