@@ -109,6 +109,9 @@ class LinkedList:
     def __bad_index(self, index):
         """Checks whether index is acceptable
 
+        Args:
+            index (int) - checked index
+
         Returns:
             bool: True if index is not acceptable, False otherwise
         """
@@ -130,6 +133,9 @@ class LinkedList:
     def remove(self, index):
         """Removes item at given index from the list
         Raises IndexError if index is out of bounds
+
+        Args:
+            index (int) - item index
         """
         if self.__bad_index(index):
             raise IndexError("Index out of bounds:", index)
@@ -185,6 +191,9 @@ class LinkedList:
     def index(self, item):
         """If item is present is list returns its index
         Raises ValueError if item is not in the list
+
+        Args:
+            item (Any) - item to look for
 
         Returns:
             int: Items index in the list
