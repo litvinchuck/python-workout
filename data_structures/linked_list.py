@@ -143,6 +143,7 @@ class LinkedList:
         for entry_index in range(index):
             current = current.next_item
         current.next_item = current.next_item.next_item
+        self.size -= 1
 
     def push_front(self, item):
         """Adds item to the front of the list
@@ -162,8 +163,7 @@ class LinkedList:
         if self.size == 0:
             raise IndexError('pop from empty list')
         item = self[0]
-        self.header.next_item = self.header.next_item.next_item
-        self.size -= 1
+        self.remove(0)
         return item
 
     def push(self, item):
@@ -185,7 +185,6 @@ class LinkedList:
             raise IndexError('pop from empty list')
         item = self[-1]
         self.remove(self.size - 1)
-        self.size -= 1
         return item
 
     def index(self, item):
