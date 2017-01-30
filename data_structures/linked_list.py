@@ -17,42 +17,52 @@ class LinkedList:
         """Iterates through list items. Starts at first item ignoring the header
 
         Returns:
-            Entry: next list item
+            Any: next list item
         """
         current = self.header
-        while current.next is not None:
-            current = current.next
-            yield current
+        while current.next_item is not None:
+            current = current.next_item
+            yield current.item
 
     def __getitem__(self, index):
         """Get list item by index
+        Raises IndexError if index is out of bounds
 
         Args:
             index - item index
 
         Returns:
-            Entry: item at given index
+            Any: item at given index
         """
-        if (index + 1) < 0 or (index + 1) > self.size:
-            raise IndexError("Index out of bounds:", index)
-        current = self.header
-        for entry_index in range(index + 1):
-            current = current.next
-        return current
+        if isinstance(index, slice):
+            returned_list = LinkedList()
+            for slice_index in range(*index.indices(self.size)):
+                returned_list.add(self[slice_index])
+            return returned_list
+        else:
+            if self.__bad_index(index):
+                raise IndexError("Index out of bounds:", index)
+            if index < 0:
+                index += self.size
+            current = self.header
+            for entry_index in range(index + 1):
+                current = current.next_item
+            return current.item
 
     def __setitem__(self, key, value):
         """Set new value to list item
+        Raises IndexError if index is out of bounds
 
         Args:
             key - item index
             value - item new value
         """
-        if (key + 1) < 0 or (key + 1) > self.size:
+        if self.__bad_index(key):
             raise IndexError("Index out of bounds:", key)
         current = self.header
         for entry_index in range(key):
-            current = current.next
-        current.next = Entry(value, current.next.next)
+            current = current.next_item
+        current.next_item = Entry(value, current.next_item.next_item)
 
     def __contains__(self, item):
         """Checks whether list contains item
@@ -64,7 +74,7 @@ class LinkedList:
             bool: True if list contains item, False otherwise
         """
         for entry in self:
-            if entry.item == item:
+            if entry == item:
                 return True
         return False
 
@@ -84,18 +94,108 @@ class LinkedList:
         """
         return len(self) > 0
 
+    def __str__(self):
+        """Returns string representation of list
+
+        Returns:
+            str: list string representation
+        """
+        if self.size > 0:
+            items = ''.join(str(item) + ', ' for item in self)[:-2]
+        else:
+            items = ''
+        return '[{}]'.format(items)
+
+    def __bad_index(self, index):
+        """Checks whether index is acceptable
+
+        Returns:
+            bool: True if index is not acceptable, False otherwise
+        """
+        return not ((index >= -self.size) and (index < self.size))
+
     def add(self, item):
-        """Adds item to the list
+        """Adds item to the back of the list. Same as push_back
 
         Args:
             item - item value
         """
         current = self.header
-        for entry in self:
-            current = entry
+        while current.next_item is not None:
+            current = current.next_item
         new_entry = Entry(item, None)
-        current.next = new_entry
+        current.next_item = new_entry
         self.size += 1
+
+    def remove(self, index):
+        """Removes item at given index from the list
+        Raises IndexError if index is out of bounds
+        """
+        if self.__bad_index(index):
+            raise IndexError("Index out of bounds:", index)
+        current = self.header
+        for entry_index in range(index):
+            current = current.next_item
+        current.next_item = current.next_item.next_item
+
+    def push_front(self, item):
+        """Adds item to the front of the list
+
+        Args:
+            item - item value
+        """
+        self.header.next_item = Entry(item, self.header.next_item)
+
+    def pop_front(self):
+        """Removes item from the front of the list
+        Raises IndexError if list is empty
+
+        Returns:
+            Any: original first item of the list
+        """
+        if self.size == 0:
+            raise IndexError('pop from empty list')
+        item = self[0]
+        self.header.next_item = self.header.next_item.next_item
+        self.size -= 1
+        return item
+
+    def push(self, item):
+        """Adds item to the front of the back of the list. Same as add
+
+        Args:
+            item - item value
+        """
+        self.add(item)
+
+    def pop(self):
+        """Removes last element from the list and returns its value
+        Raises IndexError if list is empty
+
+        Returns:
+            Any: original last item of the list
+        """
+        if self.size == 0:
+            raise IndexError('pop from empty list')
+        item = self[-1]
+        self.remove(self.size - 1)
+        self.size -= 1
+        return item
+
+    def index(self, item):
+        """If item is present is list returns its index
+        Raises ValueError if item is not in the list
+
+        Returns:
+            int: Items index in the list
+        """
+        current_index = 0
+        for list_item in self:
+            if list_item == item:
+                return current_index
+            else:
+                current_index += 1
+        raise ValueError('{} is not in the list'.format(item))
 
 
 class Entry:
@@ -103,23 +203,16 @@ class Entry:
 
     Args:
         item - list item value
-        next - link to the next list item
+        next_item - link to the next list item
 
     Attributes:
         item - list item value
-        next - link to the next list item
+        next_item - link to the next list item
     """
 
-    def __init__(self, item, next):
+    def __init__(self, item, next_item):
         self.item = item
-        self.next = next
+        self.next_item = next_item
 
 if __name__ == '__main__':
-    list = LinkedList()
-    list.add(0)
-    list.add(1)
-    list.add(3)
-    print(1 in list)
-    list[1] = 2
-    for i in list:
-        print(i.item)
+    pass
