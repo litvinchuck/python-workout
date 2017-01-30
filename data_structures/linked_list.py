@@ -161,7 +161,7 @@ class LinkedList:
         return item
 
     def push(self, item):
-        """Adds item to the front of the back of the list. Same as add
+        """Adds item to the back of the list. Same as add
 
         Args:
             item - item value
