@@ -106,6 +106,14 @@ def generate_set(elements_list: list) -> Set:
     return set
 
 if __name__ == '__main__':
+
+    # test empty set
+    set = empty_set()
+
+    for i in range(1000):
+        assert not contains(set, i)
+
+    # test generate_set
     set = generate_set([1,2,3])
 
     assert contains(set, 1)
@@ -113,6 +121,7 @@ if __name__ == '__main__':
     assert contains(set, 3)
     assert not contains(set, 4)
 
+    # test union
     set1 = generate_set([1, 2])
     set2 = generate_set([2, 3])
 
@@ -122,18 +131,29 @@ if __name__ == '__main__':
     assert contains(set_union, 3)
     assert not contains(set_union, 4)
 
+    # test intersection
+    set1 = generate_set([1, 2])
+    set2 = generate_set([2, 3])
+
     set_intersection = intersection(set1, set2)
     assert not contains(set_intersection, 1)
     assert contains(set_intersection, 2)
     assert not contains(set_intersection, 3)
+
+    # test difference
+    set1 = generate_set([1, 2])
+    set2 = generate_set([2, 3])
 
     set_difference = difference(set1, set2)
     assert contains(set_difference, 1)
     assert not contains(set_difference, 2)
     assert not contains(set_difference, 3)
 
-    property = lambda element: element > 1
-    set_filter = filter_set(set, property)
+    # test filter
+    set = generate_set([1, 2, 3])
+    set_property = lambda element: element > 1
+
+    set_filter = filter_set(set, set_property)
     assert not contains(set_filter, 1)
     assert contains(set_filter, 2)
     assert contains(set_filter, 3)
