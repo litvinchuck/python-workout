@@ -98,7 +98,7 @@ class LinkedList:
         """Returns string representation of list
 
         Returns:
-            str: list string representation
+            str: list string representation. Eg: [], [1, 2, 3]
         """
         if self.size > 0:
             items = ''.join(str(item) + ', ' for item in self)[:-2]
@@ -152,6 +152,7 @@ class LinkedList:
             item - item value
         """
         self.header.next_item = Entry(item, self.header.next_item)
+        self.size += 1
 
     def pop_front(self):
         """Removes item from the front of the list
@@ -188,7 +189,7 @@ class LinkedList:
         return item
 
     def index(self, item):
-        """If item is present is list returns its index
+        """If item is present is list returns its first appearance index
         Raises ValueError if item is not in the list
 
         Args:
@@ -223,4 +224,116 @@ class Entry:
         self.next_item = next_item
 
 if __name__ == '__main__':
-    pass
+    # test if new list is empty
+    linked_list = LinkedList()
+    assert len(linked_list) == 0
+
+    # test add and push methods
+    linked_list = LinkedList()
+    linked_list.push(1)
+    assert len(linked_list) == 1
+
+    linked_list.push(2)
+    assert len(linked_list) == 2
+
+    # test __getitem__ method
+    linked_list = LinkedList()
+    linked_list.add(1)
+    linked_list.add(2)
+    linked_list.add(3)
+    assert linked_list[0] == 1
+    assert linked_list[1] == 2
+    assert linked_list[2] == 3
+
+    assert linked_list[1:][0] == 2
+    assert linked_list[1:][1] == 3
+
+    assert linked_list[-1] == 3
+    assert linked_list[-2] == 2
+    assert linked_list[-3] == 1
+
+    # test __setitem__ method
+    linked_list = LinkedList()
+    linked_list.add(1)
+    linked_list.add(2)
+    linked_list.add(3)
+    linked_list[1] = 4
+    assert linked_list[1] == 4
+
+    # test __contains__ method
+    linked_list = LinkedList()
+    linked_list.add(1)
+    linked_list.add(2)
+    assert 1 in linked_list
+    assert 2 in linked_list
+
+    # test __bool__ method
+    linked_list = LinkedList()
+    assert not bool(linked_list)
+
+    linked_list.add(1)
+    assert bool(linked_list)
+
+    # test __str__ method
+    linked_list = LinkedList()
+    assert str(linked_list) == '[]'
+
+    linked_list.add(1)
+    linked_list.add(2)
+    linked_list.add(3)
+    assert str(linked_list) == '[1, 2, 3]'
+
+    # test remove method
+    linked_list = LinkedList()
+    linked_list.add(1)
+    linked_list.add(2)
+    linked_list.add(3)
+    linked_list.remove(1)
+    assert linked_list[0] == 1
+    assert linked_list[1] == 3
+
+    # test pop method
+    linked_list = LinkedList()
+    linked_list.add(1)
+    linked_list.add(2)
+    assert linked_list.pop() == 2
+    assert len(linked_list) == 1
+
+    # test index method
+    linked_list = LinkedList()
+    linked_list.add(1)
+    linked_list.add(2)
+    linked_list.add(3)
+    assert linked_list.index(1) == 0
+    assert linked_list.index(2) == 1
+    assert linked_list.index(3) == 2
+
+    linked_list = LinkedList()
+    linked_list.add(1)
+    linked_list.add(2)
+    linked_list.add(2)
+    assert linked_list.index(2) == 1
+
+    # test push_front method
+    linked_list = LinkedList()
+    linked_list.add(1)
+
+    linked_list.push_front(2)
+    linked_list.push_front(3)
+
+    assert linked_list[0] == 3
+    assert linked_list[1] == 2
+    assert linked_list[2] == 1
+    assert len(linked_list) == 3
+
+    # test pop_front method
+    linked_list = LinkedList()
+    linked_list.add(1)
+    linked_list.add(2)
+    linked_list.add(3)
+
+    assert linked_list.pop_front() == 1
+    assert linked_list.pop_front() == 2
+    assert linked_list.pop_front() == 3
+
+    assert len(linked_list) == 0
