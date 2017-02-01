@@ -10,6 +10,7 @@ DIRECTORY STRUCTURE
 -------------------
 
       daemon/             contains daemon related classes and functions
+      data_structures/    contains data structures implementations
       ftp/                contains ftp related classes and functions
       utils/              contains miscellaneous useful classes and functions
       
