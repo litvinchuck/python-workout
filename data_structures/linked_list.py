@@ -90,7 +90,7 @@ class LinkedList:
         """Returns boolean value of the list
 
         Returns:
-            bool: False if list is empty, False otherwise
+            bool: False if list is empty, True otherwise
         """
         return len(self) > 0
 
@@ -98,10 +98,10 @@ class LinkedList:
         """Returns string representation of list
 
         Returns:
-            str: list string representation. Eg: [], [1, 2, 3]
+            str: list string representation. Eg: '[]', '[1, 2, 3]'
         """
         if self.size > 0:
-            items = ''.join(str(item) + ', ' for item in self)[:-2]
+            items = ''.join(str(item) + ', ' for item in self)[:-2]  # Without last ', '
         else:
             items = ''
         return '[{}]'.format(items)
@@ -118,7 +118,7 @@ class LinkedList:
         return not ((index >= -self.size) and (index < self.size))
 
     def add(self, item):
-        """Adds item to the back of the list. Same as push_back
+        """Adds item to the back of the list. Same as push
 
         Args:
             item - item value
@@ -155,7 +155,7 @@ class LinkedList:
         self.size += 1
 
     def pop_front(self):
-        """Removes item from the front of the list
+        """Removes item from the front of the list and returns its value
         Raises IndexError if list is empty
 
         Returns:
@@ -189,7 +189,7 @@ class LinkedList:
         return item
 
     def index(self, item):
-        """If item is present is list returns its first appearance index
+        """If item is present is list returns index of its first appearance
         Raises ValueError if item is not in the list
 
         Args:
@@ -222,6 +222,7 @@ class Entry:
     def __init__(self, item, next_item):
         self.item = item
         self.next_item = next_item
+
 
 if __name__ == '__main__':
     # test if new list is empty
