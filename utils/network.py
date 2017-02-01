@@ -22,7 +22,8 @@ def network_io():
     """Returns Linux environment network io statistics in dictionary format.
 
     Returns:
-        dict: dictionary keys are device names, dictionary values are tuples containing integer values in following order:
+        dict: dictionary keys are device names, dictionary values are tuples containing integer values in following
+        order:
             number of bytes sent,
             number of bytes received,
             number of packets sent,

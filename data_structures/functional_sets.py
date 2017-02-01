@@ -114,7 +114,7 @@ if __name__ == '__main__':
         assert not contains(set, i)
 
     # test generate_set
-    set = generate_set([1,2,3])
+    set = generate_set([1, 2, 3])
 
     assert contains(set, 1)
     assert contains(set, 2)
