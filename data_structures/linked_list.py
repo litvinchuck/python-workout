@@ -57,12 +57,18 @@ class LinkedList:
             key - item index
             value - item new value
         """
-        if self.__bad_index(key):
-            raise IndexError("Index out of bounds:", key)
-        current = self.header
-        for entry_index in range(key):
-            current = current.next_item
-        current.next_item = Entry(value, current.next_item.next_item)
+        if isinstance(key, slice):
+            value_index = 0
+            for slice_index in range(*key.indices(self.size)):
+                self[slice_index] = value[value_index]
+                value_index += 1
+        else:
+            if self.__bad_index(key):
+                raise IndexError("Index out of bounds:", key)
+            current = self.header
+            for entry_index in range(key):
+                current = current.next_item
+            current.next_item = Entry(value, current.next_item.next_item)
 
     def __contains__(self, item):
         """Checks whether list contains item
@@ -260,6 +266,11 @@ if __name__ == '__main__':
     linked_list.add(3)
     linked_list[1] = 4
     assert linked_list[1] == 4
+
+    linked_list[1:] = linked_list[:2]
+    assert linked_list[0] == 1
+    assert linked_list[1] == 1
+    assert linked_list[2] == 4
 
     # test __contains__ method
     linked_list = LinkedList()
