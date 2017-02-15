@@ -3,6 +3,7 @@
 
 class LinkedList:
     """Singly linked list realization
+    Supports index operators and iterating
 
         Attributes:
             header - header entry, only contains link to first entry
@@ -70,6 +71,25 @@ class LinkedList:
                 current = current.next_item
             current.next_item = Entry(value, current.next_item.next_item)
 
+    def __delitem__(self, key):
+        """Removes item at given index from the list
+        Raises IndexError if index is out of bounds
+
+        Args:
+            index (int) - item index
+        """
+        if isinstance(key, slice):
+            for slice_index in reversed(range(*key.indices(self.size))):
+                del self[slice_index]
+        else:
+            if self.__bad_index(key):
+                raise IndexError("Index out of bounds:", key)
+            current = self.header
+            for entry_index in range(key):
+                current = current.next_item
+            current.next_item = current.next_item.next_item
+            self.size -= 1
+
     def __contains__(self, item):
         """Checks whether list contains item
 
@@ -136,21 +156,6 @@ class LinkedList:
         current.next_item = new_entry
         self.size += 1
 
-    def remove(self, index):
-        """Removes item at given index from the list
-        Raises IndexError if index is out of bounds
-
-        Args:
-            index (int) - item index
-        """
-        if self.__bad_index(index):
-            raise IndexError("Index out of bounds:", index)
-        current = self.header
-        for entry_index in range(index):
-            current = current.next_item
-        current.next_item = current.next_item.next_item
-        self.size -= 1
-
     def push_front(self, item):
         """Adds item to the front of the list
 
@@ -170,7 +175,7 @@ class LinkedList:
         if self.size == 0:
             raise IndexError('pop from empty list')
         item = self[0]
-        self.remove(0)
+        del self[0]
         return item
 
     def push(self, item):
@@ -191,7 +196,7 @@ class LinkedList:
         if self.size == 0:
             raise IndexError('pop from empty list')
         item = self[-1]
-        self.remove(self.size - 1)
+        del self[self.size - 1]
         return item
 
     def index(self, item):
@@ -295,14 +300,18 @@ if __name__ == '__main__':
     linked_list.add(3)
     assert str(linked_list) == '[1, 2, 3]'
 
-    # test remove method
+    # test __delitem__ method
     linked_list = LinkedList()
     linked_list.add(1)
     linked_list.add(2)
     linked_list.add(3)
-    linked_list.remove(1)
+
+    del linked_list[1]
     assert linked_list[0] == 1
     assert linked_list[1] == 3
+
+    del linked_list[:]
+    assert len(linked_list) == 0
 
     # test pop method
     linked_list = LinkedList()
