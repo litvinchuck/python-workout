@@ -9,6 +9,7 @@ Base for UNIX daemon.
 DIRECTORY STRUCTURE
 -------------------
 
+      algorithms/         contains different algorithms implementations
       daemon/             contains daemon related classes and functions
       data_structures/    contains data structures implementations
       ftp/                contains ftp related classes and functions
