@@ -18,7 +18,7 @@ def singleton_set(element: Any) -> Set:
     """Returns one element set
 
     Args:
-        element (Any) - element of the set
+        element (Any): element of the set
 
     Returns:
         Set: function that checks whether other_element is in set
@@ -30,8 +30,8 @@ def contains(set: Set, element: Any) -> bool:
     """Indicates if set contains element
 
     Args:
-        set (Set) - set that is being checked
-        element (Any) - element against which set is checked
+        set (Set): set that is being checked
+        element (Any): element against which set is checked
 
     Returns:
         bool: check result
@@ -43,8 +43,8 @@ def union(first_set: Set, second_set: Set) -> Set:
     """Unions two sets
 
     Args:
-        first_set (Set) - first set that should be unioned
-        second_set (Set) - second set that should be unioned
+        first_set (Set): first set that should be unioned
+        second_set (Set): second set that should be unioned
 
     Returns:
         Set: set created from union of two sets
@@ -56,8 +56,8 @@ def intersection(first_set: Set, second_set: Set) -> Set:
     """Intersects two sets
 
     Args:
-        first_set (Set) - first set that should be intersected
-        second_set (Set) - second set that should be intersected
+        first_set (Set): first set that should be intersected
+        second_set (Set): second set that should be intersected
 
     Returns:
         Set: set created from intersection of two sets
@@ -69,8 +69,8 @@ def difference(first_set: Set, second_set: Set) -> Set:
     """Returns difference of two sets
 
     Args:
-        first_set (Set) - origin set
-        second_set (Set) - substracted set
+        first_set (Set): origin set
+        second_set (Set): substracted set
 
     Returns:
         Set: set created from difference of two sets
@@ -82,8 +82,8 @@ def filter_set(set: Set, property: Property) -> Set:
     """Returns subset of set for which property holds
 
     Args:
-        set (Set) - origin set
-        property (Property) - property which subset should hold
+        set (Set): origin set
+        property (Property): property which subset should hold
 
     Returns:
         Set: subset of origin set for which property holds
@@ -95,7 +95,7 @@ def generate_set(elements_list: list) -> Set:
     """Generates set from a list of elements
 
     Args:
-        elements_list - list of elements
+        elements_list: list of elements
 
     Returns:
         Set: set generated from a list of elements

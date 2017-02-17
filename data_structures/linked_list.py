@@ -6,8 +6,8 @@ class LinkedList:
     Supports index operators and iterating
 
         Attributes:
-            header - header entry, only contains link to first entry
-            size - size of the list
+            header: header entry, only contains link to first entry
+            size: size of the list
         """
 
     def __init__(self):
@@ -30,7 +30,7 @@ class LinkedList:
         Raises IndexError if index is out of bounds
 
         Args:
-            index - item index
+            index: item index
 
         Returns:
             Any: item at given index
@@ -55,8 +55,8 @@ class LinkedList:
         Raises IndexError if index is out of bounds
 
         Args:
-            key - item index
-            value - item new value
+            key: item index
+            value: item new value
         """
         if isinstance(key, slice):
             value_index = 0
@@ -76,7 +76,7 @@ class LinkedList:
         Raises IndexError if index is out of bounds
 
         Args:
-            index (int) - item index
+            index (int): item index
         """
         if isinstance(key, slice):
             for slice_index in reversed(range(*key.indices(self.size))):
@@ -94,7 +94,7 @@ class LinkedList:
         """Checks whether list contains item
 
         Args:
-            item - checked item
+            item: checked item
 
         Returns:
             bool: True if list contains item, False otherwise
@@ -136,7 +136,7 @@ class LinkedList:
         """Checks whether index is acceptable
 
         Args:
-            index (int) - checked index
+            index (int): checked index
 
         Returns:
             bool: True if index is not acceptable, False otherwise
@@ -147,7 +147,7 @@ class LinkedList:
         """Adds item to the back of the list. Same as push
 
         Args:
-            item - item value
+            item: item value
         """
         current = self.header
         while current.next_item is not None:
@@ -160,7 +160,7 @@ class LinkedList:
         """Adds item to the front of the list
 
         Args:
-            item - item value
+            item: item value
         """
         self.header.next_item = Entry(item, self.header.next_item)
         self.size += 1
@@ -182,7 +182,7 @@ class LinkedList:
         """Adds item to the back of the list. Same as add
 
         Args:
-            item - item value
+            item: item value
         """
         self.add(item)
 
@@ -204,7 +204,7 @@ class LinkedList:
         Raises ValueError if item is not in the list
 
         Args:
-            item (Any) - item to look for
+            item (Any): item to look for
 
         Returns:
             int: Items index in the list
@@ -222,12 +222,12 @@ class Entry:
     """Linked list entry
 
     Args:
-        item - list item value
-        next_item - link to the next list item
+        item: list item value
+        next_item: link to the next list item
 
     Attributes:
-        item - list item value
-        next_item - link to the next list item
+        item: list item value
+        next_item: link to the next list item
     """
 
     def __init__(self, item, next_item):

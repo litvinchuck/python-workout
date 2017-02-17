@@ -5,10 +5,10 @@ class SignalHandler:
     """Basic signal handler for Daemon
 
     Args:
-        daemon (Daemon) - instance of Daemon class
+        daemon (Daemon): instance of Daemon class
 
     Attributes:
-        daemon (Daemon) - instance of Daemon class
+        daemon (Daemon): instance of Daemon class
     """
 
     def __init__(self, daemon):
@@ -18,8 +18,8 @@ class SignalHandler:
         """Handles signals sent by the OS
 
         Args:
-            signum - number of the received signal
-            frame - current stack frame
+            signum: number of the received signal
+            frame: current stack frame
         """
         if signum == signal.SIGTERM:
             self.stop()

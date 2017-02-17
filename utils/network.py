@@ -7,8 +7,8 @@ def scan_port(host, port):
     """Scans if port is open on specified host.
 
     Args:
-        host (str) - host name or host ip
-        port (int) - port number
+        host (str): host name or host ip
+        port (int): port number
 
     Returns:
         bool: True if port is open, False otherwise
@@ -55,7 +55,7 @@ def website_status(url):
     """Sends HEAD request to website and returns status
 
     Args:
-        url (str) - website url address with protocol specified
+        url (str): website url address with protocol specified
 
     Returns:
         tuple: website response code and response status, E.g: (200, 'OK')
@@ -74,7 +74,7 @@ def website_is_up(url):
     """Checks if website is up
 
     Args:
-        url (str) - website url address with protocol specified
+        url (str): website url address with protocol specified
 
     Returns:
         bool: True if website is up, False otherwise

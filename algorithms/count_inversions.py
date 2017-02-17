@@ -11,7 +11,7 @@ def sort_and_count(array):
     Splits array in two halves until base case is hit then merges them
 
     Args:
-        array - list object that should be sorted
+        array: list object that should be sorted
 
     Returns:
         tuple: first element is sorted list object, second element is number of inversions. E.g. ([1, 2, 3], 2)
@@ -31,8 +31,8 @@ def merge_and_count_inversions(first_array, second_array):
     Uses results array for return.
 
     Args:
-        first_array - first merged array
-        second_array - second merged array
+        first_array: first merged array
+        second_array: second merged array
 
     Returns:
         tuple: first element is sorted array containing elements from merged arrays, second element is number of split

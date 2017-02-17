@@ -10,9 +10,9 @@ def readable_base(origin_value, units_set, divisor):
     """Base function for readable functions. Can be used for units with same divisor.
 
     Args:
-        origin_value - input value in minimal units
-        units_set - units string values set
-        divisor - units divisor
+        origin_value: input value in minimal units
+        units_set: units string values set
+        divisor: units divisor
     Returns:
         str: unit in human readable string form
     """

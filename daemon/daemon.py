@@ -8,18 +8,18 @@ class Daemon:
     instead. Mostly created from this guide http://www.netzmafia.de/skripten/unix/linux-daemon-howto.html
 
     Args:
-        main_function (function) - function to be run by the daemon, should accept stdin, stdout, stderr as arguments
-        pidfile (str) - file containing the process identification number (pid)
-        stdin (str) - standard input stream fil
-        stdout (str) - standard output stream file
-        stderr (str) - standard error stream file
+        main_function (function): function to be run by the daemon, should accept stdin, stdout, stderr as arguments
+        pidfile (str): file containing the process identification number (pid)
+        stdin (str): standard input stream fil
+        stdout (str): standard output stream file
+        stderr (str): standard error stream file
 
     Attributes:
-        main_function (function) - function to be run by the daemon, should accept stdin, stdout, stderr as arguments
-        pidfile (str) - file containing the process identification number (pid)
-        stdin (str) - standard input stream file
-        stdout (str) - standard output stream file
-        stderr (str) - standard error stream file
+        main_function (function): function to be run by the daemon, should accept stdin, stdout, stderr as arguments
+        pidfile (str): file containing the process identification number (pid)
+        stdin (str): standard input stream file
+        stdout (str): standard output stream file
+        stderr (str): standard error stream file
     """
 
     def __init__(self, main_function, pidfile, stdin, stdout, stderr):
